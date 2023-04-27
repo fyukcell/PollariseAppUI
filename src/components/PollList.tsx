@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   FlatList,
   Modal,
@@ -8,45 +8,43 @@ import {
   RefreshControl,
 } from "react-native";
 import { Text } from "react-native-elements";
-import { Filter, POLL_TYPE, Poll } from "../utils/models";
+import { Poll, PollFilter } from "../utils/models";
 import PollCard from "./PollCard";
 import PollScreen from "./PollScreen";
 import Login from "./Login";
 import { isUserLoggedIn } from "../utils/auth";
-import { samplePolls } from "../utils/sample_data";
+import { sampleData } from "../utils/sample_data";
 import moment from "moment";
 import PollResultScreen from "./PollResultsScreen";
 import { theme } from "../styles/theme";
+import { POLL_SCOPE, POLL_CATEGORY, COUNTRY } from "../utils/constants";
+import { CountryContext } from "../contexts/CountryContext";
 
 interface PollListProps {
-  filters: Filter;
+  filters: PollFilter;
 }
 
 const PollList: React.FC<PollListProps> = ({ filters }) => {
+  const { selectedCountry } = useContext(CountryContext);
   const [polls, setPolls] = useState<Poll[]>([]);
   const [loading, setLoading] = useState(true);
   const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
     fetchPolls();
-  }, [filters]);
+  }, [filters, selectedCountry]); // Add selectedCountry as a dependency
 
   const fetchPolls = async () => {
     setLoading(true);
     // Replace this with your API call to fetch polls based on the filters
     setTimeout(async () => {
-      let fetchedPolls: Poll[] = [];
-      if (filters?.type === POLL_TYPE.DAILY) {
-        fetchedPolls = samplePolls.filter(
-          (poll: Poll) => poll.category === POLL_TYPE.DAILY
-        );
-        // Fetch polls from the API
-      } else {
-        fetchedPolls = samplePolls.filter(
-          (poll: Poll) => poll.category === POLL_TYPE.TRENDING
-        );
-        // Fetch polls from the API
-      }
+      let fetchedPolls: Poll[] = sampleData.polls.filter((poll: Poll) => {
+        if (filters.scope === POLL_SCOPE.WORLD) {
+          return poll.category === filters.type;
+        } else {
+          return poll.category === filters.type;
+        }
+      });
       setPolls(fetchedPolls);
       setLoading(false); // Set loading to false after fetching polls
     }, 1000);
@@ -138,7 +136,7 @@ const PollList: React.FC<PollListProps> = ({ filters }) => {
           onRequestClose={closePollModal}
         >
           {showResults ? (
-            <PollResultScreen poll={selectedPoll} onClose={closePollModal} />
+            <PollResultScreen />
           ) : (
             <PollScreen poll={selectedPoll} onClose={closePollModal} />
           )}

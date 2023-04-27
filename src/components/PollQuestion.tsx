@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { OptionVerticalImpact, Question } from "../utils/models";
+import { Option, Question } from "../utils/models";
 import { theme } from "../styles/theme";
 
 interface PollQuestionProps {
@@ -9,7 +9,7 @@ interface PollQuestionProps {
   onOptionSelect: (
     questionIndex: number,
     optionIndex: number,
-    optionVerticals: OptionVerticalImpact[]
+    options: Option
   ) => void;
   isHighlighted: boolean;
 }
@@ -22,12 +22,9 @@ const PollQuestion: React.FC<PollQuestionProps> = ({
 }) => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
-  const handleOptionSelect = (
-    index: number,
-    verticals: OptionVerticalImpact[]
-  ) => {
+  const handleOptionSelect = (index: number, selectedOptions: Option) => {
     setSelectedOption(index);
-    onOptionSelect(questionIndex, index, verticals);
+    onOptionSelect(questionIndex, index, selectedOptions);
   };
 
   return (
@@ -43,9 +40,7 @@ const PollQuestion: React.FC<PollQuestionProps> = ({
             styles.optionButton,
             selectedOption === index && styles.selectedOption,
           ]}
-          onPress={() =>
-            handleOptionSelect(index, option.option_vertical_impact)
-          }
+          onPress={() => handleOptionSelect(index, option)}
         >
           <Text style={styles.optionText}>{option.text}</Text>
         </TouchableOpacity>

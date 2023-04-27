@@ -7,7 +7,7 @@ import {
   Text,
   Alert,
 } from "react-native";
-import { Poll, Question, Option, OptionVerticalImpact } from "../utils/models";
+import { Poll, Question, Option } from "../utils/models";
 import PollQuestion from "./PollQuestion";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { theme } from "../styles/theme";
@@ -20,7 +20,7 @@ interface PollScreenProps {
 
 interface OptionSelection {
   index: number;
-  verticals: OptionVerticalImpact[];
+  selectedOption: Option;
 }
 
 const PollScreen: React.FC<PollScreenProps> = ({ poll, onClose }) => {
@@ -30,13 +30,13 @@ const PollScreen: React.FC<PollScreenProps> = ({ poll, onClose }) => {
   const handleOptionSelect = (
     questionIndex: number,
     optionIndex: number,
-    optionVerticals: OptionVerticalImpact[]
+    selectedOption: Option
   ) => {
     setSelectedOptions((prevSelectedOptions) => {
       const newSelectedOptions = [...prevSelectedOptions];
       newSelectedOptions[questionIndex] = {
         index: optionIndex,
-        verticals: optionVerticals,
+        selectedOption: selectedOption,
       };
       return newSelectedOptions;
     });
@@ -53,10 +53,10 @@ const PollScreen: React.FC<PollScreenProps> = ({ poll, onClose }) => {
       }
     }
 
-    let allVerticals: OptionVerticalImpact[] = [];
+    let allVerticals: Option[] = [];
 
     selectedOptions.forEach(
-      (p) => (allVerticals = allVerticals.concat(p.verticals))
+      (p) => (allVerticals = allVerticals.concat(p.selectedOption))
     );
     console.log(allVerticals);
 

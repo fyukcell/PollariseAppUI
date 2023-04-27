@@ -1,6 +1,6 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Poll, PollResult, OptionVerticalImpact } from "./models";
+import { Poll, Option } from "./models";
 import { LAST_OTP_REQUEST_TIME } from "./constants";
 import DeviceInfo from "react-native-device-info";
 import { NativeModules } from "react-native";
@@ -75,7 +75,7 @@ export const getPoll = async (pollId: string): Promise<Poll> => {
 
 export const submitPoll = async (
   poll: Poll,
-  verticals: OptionVerticalImpact[]
+  selectedOptions: Option[]
 ): Promise<boolean> => {
   try {
     const token = await AsyncStorage.getItem("pollarise-jwtToken");
@@ -83,7 +83,7 @@ export const submitPoll = async (
 
     const response = await api.post(
       `/polls/${poll.id}/submit`,
-      { verticals },
+      { selectedOptions },
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -96,21 +96,6 @@ export const submitPoll = async (
     }
   } catch (error) {
     console.error(`Error submitting poll with id ${poll.id}:`, error);
-    throw error;
-  }
-};
-
-export const getResult = async (pollId: string): Promise<PollResult> => {
-  try {
-    const token = await AsyncStorage.getItem("pollarise-jwtToken");
-    let api = await createApiInstance();
-
-    const response = await api.get(`/polls/results/${pollId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    console.error(`Error getting poll with id ${pollId}:`, error);
     throw error;
   }
 };

@@ -1,137 +1,87 @@
-// src/utils/sample_data.ts
+import { COUNTRY, POLL_CATEGORY, POLL_SCOPE } from "./constants";
+import { Poll, User } from "./models";
 
-import {
-  User,
-  Poll,
-  Question,
-  Option,
-  OptionVerticalImpact,
-  PollResult,
-  PollResultVertical,
-  POLL_SCOPE,
-  POLL_TYPE,
-} from "./models";
-
-const sampleUsers: User[] = [
-  {
+export const sampleData: {
+  user: User;
+  polls: Poll[];
+} = {
+  user: {
     id: 1,
-    phoneNumber: "1234567890",
-    country: "US",
+    phoneNumber: "+1234567890",
+    selectedCountry: COUNTRY.UNITED_STATES,
+    originCountry: COUNTRY.UNITED_STATES,
     loggedIn: true,
+    participatedPolls: ["p1", "p2"],
+    votedOptions: ["o1", "o4"],
   },
-  {
-    id: 2,
-    phoneNumber: "0987654321",
-    country: "UK",
-    loggedIn: false,
-  },
-];
-
-const samplePollResultsVerticals: PollResultVertical[] = [
-  {
-    id: "v1",
-    name: "Vertical 1",
-    votes: 100,
-  },
-  {
-    id: "v2",
-    name: "Vertical 2",
-    votes: 200,
-  },
-];
-
-const sampleOptionVerticalImpact: OptionVerticalImpact[] = [
-  {
-    option_vertical: samplePollResultsVerticals,
-    option_vertical_weight: [0.5, 0.5],
-  },
-  {
-    option_vertical: samplePollResultsVerticals,
-    option_vertical_weight: [0.7, 0.3],
-  },
-];
-
-const sampleOptionVerticalImpact2: OptionVerticalImpact[] = [
-  {
-    option_vertical: samplePollResultsVerticals,
-    option_vertical_weight: [0.3, 0.3],
-  },
-  {
-    option_vertical: samplePollResultsVerticals,
-    option_vertical_weight: [0.7, 0.3],
-  },
-];
-
-const sampleOptions: Option[] = [
-  {
-    id: 1,
-    text: "Option 1",
-    option_vertical_impact: sampleOptionVerticalImpact,
-  },
-  {
-    id: 2,
-    text: "Option 2",
-    option_vertical_impact: sampleOptionVerticalImpact2,
-  },
-];
-
-const sampleQuestions: Question[] = [
-  {
-    id: 1,
-    title: "Question 1",
-    description: "This is a sample question 1.",
-    options: sampleOptions,
-  },
-  {
-    id: 2,
-    title: "Question 2",
-    description: "This is a sample question 2.",
-    options: sampleOptions,
-  },
-];
-
-const samplePolls: Poll[] = [
-  {
-    id: "1",
-    title: "Sample Poll 1",
-    description: "This is a sample poll 1.",
-    category: POLL_TYPE.DAILY,
-    scope: POLL_SCOPE.WORLD,
-    questions: sampleQuestions,
-    participants: 300,
-    endDate: "2023-05-01",
-    displayUntil: "2023-05-07",
-    participated: false,
-  },
-  {
-    id: "2",
-    title: "Sample Poll 2",
-    description: "This is a sample poll 2.",
-    category: POLL_TYPE.TRENDING,
-    scope: POLL_SCOPE.COUNTRY,
-    questions: sampleQuestions,
-    participants: 200,
-    endDate: "2023-05-10",
-    displayUntil: "2023-05-15",
-    participated: true,
-  },
-];
-
-const samplePollResults: PollResult[] = [
-  {
-    poll_id: "1",
-    poll_result_verticals: samplePollResultsVerticals,
-  },
-  {
-    poll_id: "2",
-    poll_result_verticals: samplePollResultsVerticals,
-  },
-];
-
-export {
-  sampleUsers,
-  samplePolls,
-  sampleQuestions,
-  sampleOptions,
-  samplePollResults,
+  polls: [
+    {
+      id: "p1",
+      title: "Poll 1",
+      description: "This is the first sample poll.",
+      category: POLL_CATEGORY.DAILY,
+      scope: POLL_SCOPE.WORLD,
+      questions: [
+        {
+          id: "q1",
+          title: "Question 1",
+          description: "This is question 1.",
+          options: [
+            { id: "o1", question_id: "q1", text: "Option 1", votes: 100 },
+            { id: "o2", question_id: "q1", text: "Option 2", votes: 200 },
+          ],
+        },
+        {
+          id: "q2",
+          title: "Question 2",
+          description: "This is question 2.",
+          options: [
+            { id: "o3", question_id: "q2", text: "Option 1", votes: 300 },
+            { id: "o4", question_id: "q2", text: "Option 2", votes: 400 },
+          ],
+        },
+      ],
+      participants: 500,
+      endDate: "2023-05-01",
+      displayUntil: "2023-05-02",
+      participated: true,
+      allowReparticipate: false,
+      displayedCountries: [COUNTRY.UNITED_STATES],
+      allowedCountries: [COUNTRY.UNITED_STATES],
+    },
+    {
+      id: "p2",
+      title: "Poll 2",
+      description: "This is the second sample poll.",
+      category: POLL_CATEGORY.TRENDING,
+      scope: POLL_SCOPE.COUNTRY,
+      questions: [
+        {
+          id: "q3",
+          title: "Question 1",
+          description: "This is question 1.",
+          options: [
+            { id: "o5", question_id: "q3", text: "Option 1", votes: 100 },
+            { id: "o6", question_id: "q3", text: "Option 2", votes: 200 },
+          ],
+        },
+        {
+          id: "q4",
+          title: "Question 2",
+          description: "This is question 2.",
+          options: [
+            { id: "o7", question_id: "q4", text: "Option 1", votes: 300 },
+            { id: "o8", question_id: "q4", text: "Option 2", votes: 400 },
+          ],
+        },
+      ],
+      participants: 600,
+      endDate: "2023-05-01",
+      displayUntil: "2023-05-02",
+      participated: false,
+      allowReparticipate: true,
+      displayedCountries: [COUNTRY.UNITED_STATES],
+      allowedCountries: [COUNTRY.UNITED_STATES],
+    },
+  ],
 };

@@ -9,6 +9,7 @@ MERGED from [com.facebook.flipper:flipper-network-plugin:0.125.0] /Users/mehmet/
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.125.0] /Users/mehmet/.gradle/caches/transforms-3/d583b133a68ceecad4ecdddb740e6639/transformed/jetified-flipper-fresco-plugin-0.125.0/AndroidManifest.xml:8:1-15:12
 MERGED from [com.facebook.flipper:flipper:0.125.0] /Users/mehmet/.gradle/caches/transforms-3/236929aa564a4c4dfa1b417642a2a2ae/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:8:1-18:12
 MERGED from [:react-native-async-storage_async-storage] /Users/mehmet/Pollarise/node_modules/@react-native-async-storage/async-storage/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-picker_picker] /Users/mehmet/Pollarise/node_modules/@react-native-picker/picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-device-info] /Users/mehmet/Pollarise/node_modules/react-native-device-info/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-geolocation-service] /Users/mehmet/Pollarise/node_modules/react-native-geolocation-service/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-linear-gradient] /Users/mehmet/Pollarise/node_modules/react-native-linear-gradient/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
@@ -18,6 +19,7 @@ MERGED from [:react-native-safe-area-context] /Users/mehmet/Pollarise/node_modul
 MERGED from [:react-native-screens] /Users/mehmet/Pollarise/node_modules/react-native-screens/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-share] /Users/mehmet/Pollarise/node_modules/react-native-share/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-21:12
 MERGED from [:react-native-shimmer] /Users/mehmet/Pollarise/node_modules/react-native-shimmer/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-svg] /Users/mehmet/Pollarise/node_modules/react-native-svg/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-vector-icons] /Users/mehmet/Pollarise/node_modules/react-native-vector-icons/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.react:react-android:0.71.6] /Users/mehmet/.gradle/caches/transforms-3/e130ab6804e166a1486f733ffc21e975/transformed/jetified-react-android-0.71.6-debug/AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /Users/mehmet/.gradle/caches/transforms-3/091aa78edfb1f2d80073a0612085f398/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -218,6 +220,8 @@ MERGED from [com.facebook.flipper:flipper:0.125.0] /Users/mehmet/.gradle/caches/
 MERGED from [com.facebook.flipper:flipper:0.125.0] /Users/mehmet/.gradle/caches/transforms-3/236929aa564a4c4dfa1b417642a2a2ae/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:11:5-13:41
 MERGED from [:react-native-async-storage_async-storage] /Users/mehmet/Pollarise/node_modules/@react-native-async-storage/async-storage/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-async-storage_async-storage] /Users/mehmet/Pollarise/node_modules/@react-native-async-storage/async-storage/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-picker_picker] /Users/mehmet/Pollarise/node_modules/@react-native-picker/picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-picker_picker] /Users/mehmet/Pollarise/node_modules/@react-native-picker/picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-device-info] /Users/mehmet/Pollarise/node_modules/react-native-device-info/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-device-info] /Users/mehmet/Pollarise/node_modules/react-native-device-info/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-geolocation-service] /Users/mehmet/Pollarise/node_modules/react-native-geolocation-service/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
@@ -236,6 +240,8 @@ MERGED from [:react-native-share] /Users/mehmet/Pollarise/node_modules/react-nat
 MERGED from [:react-native-share] /Users/mehmet/Pollarise/node_modules/react-native-share/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-shimmer] /Users/mehmet/Pollarise/node_modules/react-native-shimmer/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-shimmer] /Users/mehmet/Pollarise/node_modules/react-native-shimmer/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-svg] /Users/mehmet/Pollarise/node_modules/react-native-svg/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-svg] /Users/mehmet/Pollarise/node_modules/react-native-svg/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-vector-icons] /Users/mehmet/Pollarise/node_modules/react-native-vector-icons/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-vector-icons] /Users/mehmet/Pollarise/node_modules/react-native-vector-icons/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.react:react-android:0.71.6] /Users/mehmet/.gradle/caches/transforms-3/e130ab6804e166a1486f733ffc21e975/transformed/jetified-react-android-0.71.6-debug/AndroidManifest.xml:5:5-7:41

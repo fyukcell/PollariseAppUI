@@ -1,15 +1,12 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer, RouteProp } from "@react-navigation/native";
-import { ParamListBase } from "@react-navigation/routers";
-import TrendingTab from "./tabs/TrendingTab";
+import { NavigationContainer } from "@react-navigation/native";
 import DailyTab from "./tabs/DailyTab";
 import TimedTab from "./tabs/TimedTab";
 import QuizzesTab from "./tabs/QuizzesTab";
 import ProfileTab from "./tabs/ProfileTab";
 import { Icon, Text } from "react-native-elements";
 import { StyleSheet } from "react-native";
-import PollScreen from "./PollScreen";
 import { theme } from "../styles/theme";
 
 const Tab = createBottomTabNavigator();
@@ -63,19 +60,20 @@ const NavigationBar: React.FC = () => {
           tabBarStyle: styles.tabBar,
         })}
       >
-        <Tab.Screen name="Trending" component={TrendingTab} />
         <Tab.Screen name="Daily" component={DailyTab} />
         <Tab.Screen name="Timed" component={TimedTab} />
         <Tab.Screen name="Quizzes" component={QuizzesTab} />
+        <Tab.Screen name="Profile" component={ProfileTab} />
       </Tab.Navigator>
     </NavigationContainer>
   );
 };
+
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: theme.colors.headerBackground,
-    borderTopWidth: 1, // Change this to 1 for a border at the top
-    borderTopColor: theme.colors.lightBorder, // Add this line to set the border color
+    borderTopWidth: 2, // Change this to 1 for a border at the top
+    borderTopColor: theme.colors.background, // Add this line to set the border color
     elevation: 0,
     shadowOpacity: 0,
     shadowOffset: {

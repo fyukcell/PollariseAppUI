@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 import PollList from "../PollList";
 import Shimmer from "react-native-shimmer";
-import { Filter, POLL_SCOPE, POLL_TYPE } from "../../utils/models";
+import { POLL_SCOPE, POLL_CATEGORY, COUNTRY } from "../../utils/constants";
 import { theme } from "../../styles/theme";
+import { PollFilter } from "../../utils/models";
+import { CountryContext } from "../../contexts/CountryContext";
 
 const DailyTab: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const { selectedCountry } = useContext(CountryContext); // Use selectedCountry from the context
 
-  const buttons = ["World", "Country"];
+  const buttons = ["World", "Region"];
 
-  const filters: Filter = {
+  let filters: PollFilter = {
     scope: selectedIndex === 0 ? POLL_SCOPE.WORLD : POLL_SCOPE.COUNTRY,
-    type: POLL_TYPE.DAILY,
+    type: POLL_CATEGORY.DAILY,
   };
 
   return (
@@ -34,6 +37,11 @@ const DailyTab: React.FC = () => {
         selectedTextStyle={styles.selectedButtonText}
         innerBorderStyle={{ color: "#2F2F2F" }}
       />
+      {selectedIndex === 1 && (
+        <View>
+          <Text style={styles.countryText}>{selectedCountry}</Text>
+        </View>
+      )}
       <PollList filters={filters} />
     </View>
   );
@@ -58,6 +66,15 @@ const styles = StyleSheet.create({
   },
   title: {
     ...theme.text.title,
+    color: theme.colors.white,
+    textShadowColor: theme.colors.primary,
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5,
+  },
+  countryText: {
+    ...theme.text.title,
+    fontWeight: "normal",
+    fontSize: 17,
     color: theme.colors.white,
     textShadowColor: theme.colors.primary,
     textShadowOffset: { width: 1, height: 1 },
@@ -93,6 +110,29 @@ const styles = StyleSheet.create({
   },
   innerBorder: {
     color: theme.colors.innerBorder,
+  },
+  countryPicker: {
+    width: 200,
+    alignSelf: "center",
+    marginBottom: 15,
+    color: theme.colors.white,
+  },
+  dropDownContainer: {
+    marginBottom: 15,
+  },
+  dropDown: {
+    backgroundColor: "#222222",
+  },
+  dropDownItem: {
+    justifyContent: "flex-start",
+  },
+  dropDownBox: {
+    backgroundColor: "#222222",
+    borderColor: theme.colors.separator,
+  },
+  countryPickerContainer: {
+    alignSelf: "center",
+    marginBottom: 15,
   },
 });
 

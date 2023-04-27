@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import { ThemeProvider } from "styled-components/native";
 import NavigationBar from "./src/components/NavigationBar";
 import { theme } from "./src/styles/theme";
+import { CountryProvider } from "./src/contexts/CountryContext";
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.header}>
-          <Text style={styles.appName}>Pollarise</Text>
-        </View>
-        {<NavigationBar />}
-      </SafeAreaView>
-    </ThemeProvider>
+    <CountryProvider>
+      <ThemeProvider theme={theme}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={styles.header}>
+            <Text style={styles.appName}>Pollarise</Text>
+          </View>
+          {<NavigationBar />}
+        </SafeAreaView>
+      </ThemeProvider>
+    </CountryProvider>
   );
 };
 

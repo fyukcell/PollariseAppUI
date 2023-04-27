@@ -1,21 +1,19 @@
+// src/components/tabs/ProfileTab.tsx
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { Poll, Question } from "../utils/models";
-import { theme } from "../styles/theme";
+import { View, StyleSheet } from "react-native";
+import { Button } from "react-native-elements";
 
-interface PollResultScreenProps {
-  poll: Poll;
-  onClose: () => void;
-}
+const ProfileTab: React.FC = () => {
+  const handleLogout = async () => {
+    try {
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
-const PollResultScreen: React.FC<PollResultScreenProps> = ({
-  poll,
-  onClose,
-}) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{poll.title}</Text>
-      <ScrollView contentContainerStyle={styles.content}></ScrollView>
+      <Button title="Logout" onPress={handleLogout} />
     </View>
   );
 };
@@ -23,19 +21,9 @@ const PollResultScreen: React.FC<PollResultScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#FFF",
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: "#4B0082",
-  },
-  content: {
-    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
-export default PollResultScreen;
+export default ProfileTab;

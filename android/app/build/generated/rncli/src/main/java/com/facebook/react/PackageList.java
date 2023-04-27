@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 // @react-native-async-storage/async-storage
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+// @react-native-picker/picker
+import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-device-info
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 // react-native-geolocation-service
@@ -31,6 +33,8 @@ import com.swmansion.rnscreens.RNScreensPackage;
 import cl.json.RNSharePackage;
 // react-native-shimmer
 import com.oblador.shimmer.RNShimmerPackage;
+// react-native-svg
+import com.horcrux.svg.SvgPackage;
 // react-native-vector-icons
 import com.oblador.vectoricons.VectorIconsPackage;
 
@@ -79,6 +83,7 @@ public class PackageList {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
       new AsyncStoragePackage(),
+      new RNCPickerPackage(),
       new RNDeviceInfo(),
       new RNFusedLocationPackage(),
       new LinearGradientPackage(),
@@ -88,6 +93,7 @@ public class PackageList {
       new RNScreensPackage(),
       new RNSharePackage(),
       new RNShimmerPackage(),
+      new SvgPackage(),
       new VectorIconsPackage()
     ));
   }
