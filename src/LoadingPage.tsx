@@ -1,4 +1,4 @@
-// LoadingPage.tsx
+// Src/LoadingPage.tsx
 import React, { useEffect } from "react";
 import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
 import { theme } from "./styles/theme";

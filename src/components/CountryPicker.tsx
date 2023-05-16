@@ -1,4 +1,4 @@
-// components/CountryPicker.tsx
+// Src/Components/CountryPicker.tsx
 import React, { useContext } from "react";
 import RNPickerSelect from "react-native-picker-select";
 import { SvgUri } from "react-native-svg";

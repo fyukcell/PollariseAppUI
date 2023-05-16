@@ -1,4 +1,4 @@
-// theme.ts
+// Src/styles/theme.ts
 export const theme = {
   colors: {
     primary: "#4e80ef",

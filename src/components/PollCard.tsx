@@ -1,3 +1,4 @@
+// Src/Components/PollCard.tsx
 import React, { useContext } from "react";
 import {
   View,

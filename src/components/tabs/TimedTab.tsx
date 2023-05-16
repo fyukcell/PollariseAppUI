@@ -1,4 +1,4 @@
-// DailyTab.tsx
+// Src/Components/Tabs/DailyTab.tsx
 import React, { useState, useContext } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { ButtonGroup } from "react-native-elements";

@@ -1,3 +1,4 @@
+// Src/Components/PollScreen.tsx
 import React, { useState } from "react";
 import {
   View,

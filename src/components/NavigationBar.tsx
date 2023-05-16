@@ -1,3 +1,4 @@
+// Src/Components/NavigationBar.tsx
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import DailyTab from "./tabs/DailyTab";

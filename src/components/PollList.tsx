@@ -1,4 +1,4 @@
-// src/components/PollList.tsx
+// Src/Components/PollList.tsx
 
 import React, { useState, useEffect, useContext } from "react";
 import {

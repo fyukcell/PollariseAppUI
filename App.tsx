@@ -1,3 +1,4 @@
+// App.tsx
 import React, { useState, useEffect, useContext } from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { ThemeProvider } from "styled-components/native";
@@ -22,7 +23,7 @@ const App = () => {
     }
   }, [initializing]);
 
-  if (showLoading || initializing || true) {
+  if (showLoading || initializing) {
     return <LoadingPage />;
   }
 

@@ -1,4 +1,4 @@
-// components/ProfileTab.tsx
+// Src/Components/Tabs/ProfileTab.tsx
 import React, { useContext } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-elements";

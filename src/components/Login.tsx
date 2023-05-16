@@ -1,4 +1,4 @@
-//components/Login.tsx
+// Src/Components/Login.tsx
 import React, { useState, useEffect } from "react";
 import { View, Alert, TouchableOpacity, StyleSheet } from "react-native";
 import { Input, Button, Text } from "react-native-elements";
