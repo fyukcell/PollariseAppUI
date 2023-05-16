@@ -41,6 +41,7 @@ const PollScreen: React.FC<PollScreenProps> = ({ poll, onClose }) => {
       return newSelectedOptions;
     });
   };
+
   const handleSubmit = async () => {
     setIsSubmitted(true);
 
@@ -88,11 +89,15 @@ const PollScreen: React.FC<PollScreenProps> = ({ poll, onClose }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{poll.title}</Text>
+        <View>
+          <Text style={styles.title}>{poll.title}</Text>
+          <Text style={styles.description}>{poll.description}</Text>
+        </View>
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-          <Icon name="close" size={24} color="#FFF" />
+          <Icon name="close" size={24} color={theme.colors.primaryText} />
         </TouchableOpacity>
       </View>
+
       <ScrollView contentContainerStyle={styles.content}>
         {poll.questions.map((question: Question, index: number) => (
           <PollQuestion
@@ -115,17 +120,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
+    flexDirection: "column", // Change this line
   },
   header: {
-    flexDirection: "row",
+    flexDirection: "row", // Change this line
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: theme.colors.headerBackground,
+    backgroundColor: theme.colors.containerBackground,
     paddingHorizontal: 20,
     paddingVertical: 12,
+    borderBottomWidth: 2,
+    borderColor: theme.colors.borderColor,
   },
   title: {
-    fontSize: 22,
+    ...theme.text.subTitle,
+    fontSize: 25,
+    textAlign: "left",
     fontWeight: "bold",
     color: theme.colors.primaryText,
   },
@@ -133,22 +143,33 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   submitButton: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.accent,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     alignSelf: "center",
     marginTop: 20,
     marginBottom: 10,
-    elevation: 4,
   },
   submitButtonText: {
-    fontSize: 18,
+    ...theme.text.buttonText,
     fontWeight: "bold",
-    color: theme.colors.primaryText,
+    color: theme.colors.white,
   },
   closeButton: {
     padding: 6,
+  },
+  description: {
+    fontSize: 16,
+    color: theme.colors.secondaryText,
+    textAlign: "left",
+  },
+  ption: {
+    fontSize: 16,
+    color: theme.colors.secondaryText,
+    textAlign: "center",
+    paddingHorizontal: 20,
+    paddingBottom: 10,
   },
 });
 

@@ -1,3 +1,5 @@
+// src/components/PollList.tsx
+
 import React, { useState, useEffect, useContext } from "react";
 import {
   FlatList,
@@ -12,13 +14,14 @@ import { Poll, PollFilter } from "../utils/models";
 import PollCard from "./PollCard";
 import PollScreen from "./PollScreen";
 import Login from "./Login";
-import { isUserLoggedIn } from "../utils/auth";
 import { sampleData } from "../utils/sample_data";
 import moment from "moment";
 import PollResultScreen from "./PollResultsScreen";
 import { theme } from "../styles/theme";
 import { POLL_SCOPE, POLL_CATEGORY, COUNTRY } from "../utils/constants";
 import { CountryContext } from "../contexts/CountryContext";
+import UserContext from "../contexts/UserContext";
+import { getFilteredPolls } from "../utils/api";
 
 interface PollListProps {
   filters: PollFilter;
@@ -29,6 +32,11 @@ const PollList: React.FC<PollListProps> = ({ filters }) => {
   const [polls, setPolls] = useState<Poll[]>([]);
   const [loading, setLoading] = useState(true);
   const [showResults, setShowResults] = useState(false);
+  const [user, setUser] = useContext(UserContext);
+  const [pollModalVisible, setPollModalVisible] = useState(false);
+  const [selectedPoll, setSelectedPoll] = useState<Poll | null>(null);
+  const [loginModalVisible, setLoginModalVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     fetchPolls();
@@ -36,31 +44,38 @@ const PollList: React.FC<PollListProps> = ({ filters }) => {
 
   const fetchPolls = async () => {
     setLoading(true);
-    // Replace this with your API call to fetch polls based on the filters
-    setTimeout(async () => {
-      let fetchedPolls: Poll[] = sampleData.polls.filter((poll: Poll) => {
+    try {
+      let fetchedPolls: Poll[] = await getFilteredPolls(
+        filters.scope.toString()
+      );
+      let filteredPolls: Poll[] = fetchedPolls?.filter((poll: Poll) => {
         if (filters.scope === POLL_SCOPE.WORLD) {
-          return poll.category === filters.type;
+          return (
+            poll.category === filters.type && poll.scope === POLL_SCOPE.WORLD
+          );
         } else {
-          return poll.category === filters.type;
+          return (
+            poll.category === filters.type &&
+            poll.displayedCountries.includes(selectedCountry)
+          );
         }
       });
-      setPolls(fetchedPolls);
-      setLoading(false); // Set loading to false after fetching polls
-    }, 1000);
+
+      setPolls(filteredPolls);
+    } catch (error) {
+      console.error("Error fetching polls:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const [pollModalVisible, setPollModalVisible] = useState(false);
-  const [selectedPoll, setSelectedPoll] = useState<Poll | null>(null);
-  const [loginModalVisible, setLoginModalVisible] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
   const onRefresh = async () => {
     setRefreshing(true);
     await fetchPolls();
     setRefreshing(false);
   };
   const openPollModal = async (poll: Poll) => {
-    const isLoggedIn = await isUserLoggedIn();
+    const isLoggedIn = !!user;
     if (!isLoggedIn) {
       setLoginModalVisible(true);
       return;
@@ -72,7 +87,9 @@ const PollList: React.FC<PollListProps> = ({ filters }) => {
     const hoursRemaining = duration.asHours();
 
     // Check if the user has participated or if the poll has ended
-    const userParticipated = poll.participated;
+    const userParticipated = user
+      ? !!user.participatedPolls.find((p) => p === poll.id)
+      : false;
     const pollEnded = hoursRemaining <= 0;
 
     setShowResults(userParticipated || pollEnded);

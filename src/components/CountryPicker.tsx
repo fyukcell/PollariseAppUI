@@ -1,3 +1,4 @@
+// components/CountryPicker.tsx
 import React, { useContext } from "react";
 import RNPickerSelect from "react-native-picker-select";
 import { SvgUri } from "react-native-svg";
@@ -25,36 +26,39 @@ const CountryPicker: React.FC<
         items={Object.values(COUNTRY).map((country) => ({
           label: country,
           value: country,
-          icon: () => (
-            <SvgUri
-              width="20"
-              height="20"
-              uri={`https://flagcdn.com/20x15/${country.toLowerCase()}.svg`}
-            />
-          ),
         }))}
         style={{
           inputIOS: {
-            color: theme.colors.white,
-            paddingHorizontal: 12,
-            paddingVertical: 6,
+            ...theme.text.input,
+            fontSize: 16,
+            paddingHorizontal: 10,
+            paddingVertical: 8,
             borderRadius: 5,
-            backgroundColor: theme.colors.primary,
+            backgroundColor: theme.colors.containerBackground,
+            borderColor: theme.colors.borderColor,
+            borderWidth: 2,
             marginVertical: 10,
+            justifyContent: "center",
             width: 180,
+            textAlign: "center", // Add this line
           },
           inputAndroid: {
-            color: theme.colors.white,
-            paddingHorizontal: 12,
-            paddingVertical: 6,
+            ...theme.text.input,
+            justifyContent: "center",
+            fontSize: 16,
+            paddingHorizontal: 10,
+            paddingVertical: 8,
             borderRadius: 5,
-            backgroundColor: theme.colors.primary,
+            backgroundColor: theme.colors.containerBackground,
+            borderColor: theme.colors.borderColor,
+            borderWidth: 2,
             marginVertical: 10,
             width: 180,
+            textAlign: "center", // Add this line
           },
           iconContainer: {
-            top: 8,
-            right: 20,
+            top: 10,
+            right: 15,
           },
         }}
         useNativeAndroidPickerStyle={false}

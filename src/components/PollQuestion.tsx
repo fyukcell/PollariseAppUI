@@ -42,7 +42,14 @@ const PollQuestion: React.FC<PollQuestionProps> = ({
           ]}
           onPress={() => handleOptionSelect(index, option)}
         >
-          <Text style={styles.optionText}>{option.text}</Text>
+          <Text
+            style={[
+              styles.optionText,
+              selectedOption === index && styles.selectedOptionText,
+            ]}
+          >
+            {option.text}
+          </Text>
         </TouchableOpacity>
       ))}
     </View>
@@ -53,13 +60,14 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
     borderWidth: 2,
-    borderColor: theme.colors.primary,
+    borderColor: theme.colors.borderColor,
     borderRadius: 10,
-    backgroundColor: theme.colors.cardBackground,
+    backgroundColor: theme.colors.containerBackground,
     padding: 10,
   },
   title: {
-    fontSize: 16,
+    ...theme.text.subTitle,
+    fontSize: 18,
     fontWeight: "bold",
     color: theme.colors.primaryText,
     marginBottom: 5,
@@ -70,19 +78,26 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   optionButton: {
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.containerBackground,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     marginBottom: 10,
+    borderWidth: 1,
+    borderColor: theme.colors.borderColor,
   },
   selectedOption: {
-    backgroundColor: theme.colors.primary,
-    elevation: 2,
+    backgroundColor: theme.colors.accent,
+    elevation: 3,
   },
   optionText: {
-    fontSize: 14,
+    ...theme.text.buttonText,
+    fontWeight: "normal",
     color: theme.colors.primaryText,
+  },
+  selectedOptionText: {
+    fontWeight: "bold",
+    color: theme.colors.white,
   },
   highlightedOption: {
     borderColor: "#FF0000",

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
+import { theme } from "../../styles/theme";
 
 const QuizzesTab: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ const QuizzesTab: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: theme.colors.background,
     justifyContent: "center",
     padding: 10,
   },
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   comingSoonText: {
-    color: "#B0B0B0",
+    color: theme.colors.primaryText,
     fontSize: 32,
     fontWeight: "600",
   },

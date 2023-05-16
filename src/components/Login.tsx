@@ -1,3 +1,4 @@
+//components/Login.tsx
 import React, { useState, useEffect } from "react";
 import { View, Alert, TouchableOpacity, StyleSheet } from "react-native";
 import { Input, Button, Text } from "react-native-elements";
@@ -37,6 +38,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onClose }) => {
       return () => clearTimeout(timer);
     }
   }, [remainingTime]);
+
   useEffect(() => {
     if (buttonTimer > 0) {
       const timer = setTimeout(() => {
@@ -45,6 +47,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onClose }) => {
       return () => clearTimeout(timer);
     }
   }, [buttonTimer]);
+
   const checkLoginStatus = async () => {
     const isLoggedIn = await validateLogin();
     if (isLoggedIn) {
@@ -96,136 +99,156 @@ const Login: React.FC<LoginProps> = ({ onLogin, onClose }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-        <Text>
-          <Icon name="close" size={30} color="#FFF" />
-        </Text>
-      </TouchableOpacity>
-      <Text h3 style={styles.header}>
-        Login to Participate
-      </Text>
-      <View style={styles.divider} />
-      {!otpRequested ? (
-        <>
-          <Input
-            containerStyle={styles.inputContainer}
-            inputStyle={styles.input}
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
-            placeholder="Phone number"
-            placeholderTextColor="gray"
-          />
-          <Button
-            title={`Request OTP${
-              remainingTime > 0 ? ` (${remainingTime}s)` : ""
-            }`}
-            onPress={handleRequestOtp}
-            buttonStyle={[
-              styles.button,
-              remainingTime > 0 || buttonTimer > 0
-                ? styles.buttonDisabled
-                : null,
-            ]}
-            titleStyle={styles.buttonTitle}
-            disabled={remainingTime > 0 || buttonTimer > 0}
-          />
-        </>
-      ) : (
-        <>
-          <Text h4 style={styles.subheader}>
-            Enter the OTP
+    <View style={styles.page}>
+      <View style={styles.topContainer}>
+        <Text style={styles.header}>Login to Participate</Text>
+        <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+          <Text>
+            <Icon name="close" size={30} color={theme.colors.primaryText} />
           </Text>
-          <Input
-            containerStyle={styles.inputContainer}
-            inputStyle={styles.input}
-            value={otp}
-            onChangeText={setOtp}
-            keyboardType="number-pad"
-            placeholder="OTP"
-            placeholderTextColor="gray"
-          />
-          <Button
-            title="Validate OTP"
-            onPress={handleValidateOtp}
-            buttonStyle={[
-              styles.button,
-              buttonTimer > 0 ? styles.buttonDisabled : null,
-            ]}
-            titleStyle={styles.buttonTitle}
-            disabled={buttonTimer > 0}
-          />
-        </>
-      )}
-      <Text style={styles.disclaimerText}>
-        WE ONLY USE YOUR NUMBER FOR VALIDATION. YOUR NUMBER IS ENCRYPTED DURING
-        VALIDATION. WE DO NOT ASSOCIATE YOUR NUMBER WITH YOUR RESPONSES.
-      </Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.divider} />
+      <View style={styles.container}>
+        {!otpRequested ? (
+          <>
+            <Input
+              containerStyle={styles.inputContainer}
+              inputStyle={styles.input}
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+              keyboardType="phone-pad"
+              placeholder="Phone number"
+              placeholderTextColor="gray"
+            />
+            <Button
+              title={`Request OTP${
+                remainingTime > 0 ? ` (${remainingTime}s)` : ""
+              }`}
+              onPress={handleRequestOtp}
+              buttonStyle={[
+                styles.button,
+                remainingTime > 0 || buttonTimer > 0
+                  ? styles.buttonDisabled
+                  : null,
+              ]}
+              titleStyle={styles.buttonTitle}
+              disabled={remainingTime > 0 || buttonTimer > 0}
+            />
+          </>
+        ) : (
+          <>
+            <Text h4 style={styles.subheader}>
+              Enter the OTP
+            </Text>
+            <Input
+              containerStyle={styles.inputContainer}
+              inputStyle={styles.input}
+              value={otp}
+              onChangeText={setOtp}
+              keyboardType="number-pad"
+              placeholder="OTP"
+              placeholderTextColor="gray"
+            />
+            <Button
+              title="Validate OTP"
+              onPress={handleValidateOtp}
+              buttonStyle={[
+                styles.button,
+                buttonTimer > 0 ? styles.buttonDisabled : null,
+              ]}
+              titleStyle={styles.buttonTitle}
+              disabled={buttonTimer > 0}
+            />
+          </>
+        )}
+        <Text style={styles.disclaimerText}>
+          WE ONLY USE YOUR NUMBER FOR VALIDATION. YOUR NUMBER IS ENCRYPTED
+          DURING VALIDATION. WE DO NOT ASSOCIATE YOUR NUMBER WITH YOUR
+          RESPONSES.
+        </Text>
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    flexDirection: "column",
+    padding: 20,
+  },
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: theme.colors.background,
+    flexDirection: "column",
+    padding: 20,
+    justifyContent: "center",
   },
   closeButton: {
-    position: "absolute",
-    top: 40,
-    right: 20,
+    padding: 6,
   },
   header: {
-    color: theme.colors.white,
-    fontSize: theme.text.title.fontSize,
-    fontWeight: theme.text.title.fontWeight,
-    marginBottom: 5,
-    fontFamily: "Roboto",
+    color: theme.colors.primaryText,
+    fontSize: 20,
+    textAlign: "left",
+    fontWeight: "bold",
+    alignSelf: "center",
+    fontFamily: "BUNGEE",
+  },
+  topContainer: {
+    flexDirection: "row", // Change this line
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   divider: {
-    height: 1,
+    height: 2,
     width: "100%",
-    backgroundColor: theme.colors.separator,
-    marginBottom: 50,
-    marginTop: 0,
+    backgroundColor: theme.colors.borderColor,
+    marginBottom: 20,
   },
   subheader: {
-    color: theme.colors.white,
+    color: theme.colors.primaryText,
     marginBottom: 10,
-    fontFamily: "Roboto",
+    fontFamily: "DEGULAR",
     fontWeight: "500",
   },
   inputContainer: {
-    width: "80%",
+    width: "100%",
     marginTop: 10,
     marginBottom: 20,
     borderBottomColor: theme.colors.primary,
   },
   input: {
-    color: theme.colors.white,
-    fontFamily: "Roboto",
+    color: theme.colors.primaryText,
+    fontFamily: "DEGULAR",
   },
   button: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.accent,
     paddingHorizontal: 20,
     paddingVertical: 12,
-    shadowColor: "#000",
+    borderRadius: 5,
+    alignSelf: "center",
+    marginTop: 10,
+    marginBottom: 10,
   },
   buttonDisabled: {
     backgroundColor: "#A1887F",
   },
   buttonTitle: {
     fontSize: theme.text.buttonText.fontSize,
+    fontFamily: "DEGULAR",
   },
   disclaimerText: {
     position: "absolute",
-    width: 300,
     bottom: 20,
-    color: theme.colors.white,
+    left: 0,
+    right: 0,
+    color: theme.colors.secondaryText,
     fontSize: 16,
     textAlign: "center",
+    fontFamily: "DEGULAR",
   },
 });
 

@@ -1,79 +1,74 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 import DailyTab from "./tabs/DailyTab";
 import TimedTab from "./tabs/TimedTab";
 import QuizzesTab from "./tabs/QuizzesTab";
 import ProfileTab from "./tabs/ProfileTab";
 import { Icon, Text } from "react-native-elements";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { theme } from "../styles/theme";
+import { color } from "@rneui/base";
 
 const Tab = createBottomTabNavigator();
 
 const NavigationBar: React.FC = () => {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          headerShown: false,
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName = "";
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName = "";
 
-            if (route.name === "Trending") {
-              iconName = focused ? "flame" : "flame-outline";
-            } else if (route.name === "Daily") {
-              iconName = focused ? "calendar" : "calendar-outline";
-            } else if (route.name === "Timed") {
-              iconName = focused ? "timer" : "timer-outline";
-            } else if (route.name === "Quizzes") {
-              iconName = focused ? "help-circle" : "help-circle-outline";
-            } else if (route.name === "Profile") {
-              iconName = focused ? "person" : "person-outline";
-            }
+          if (route.name === "Trending") {
+            iconName = focused ? "flame" : "flame-outline";
+          } else if (route.name === "Daily") {
+            iconName = focused ? "calendar" : "calendar-outline";
+          } else if (route.name === "Timed") {
+            iconName = focused ? "timer" : "timer-outline";
+          } else if (route.name === "Quizzes") {
+            iconName = focused ? "help-circle" : "help-circle-outline";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "person" : "person-outline";
+          }
 
-            return (
-              <Icon
-                type="ionicon"
-                name={iconName}
-                size={size}
-                color={focused ? theme.colors.secondary : theme.colors.white}
-                containerStyle={styles.tabIcon}
-              />
-            );
-          },
-          tabBarLabel: ({ focused, color }) => {
-            return (
-              <Text
-                style={[
-                  styles.tabLabel,
-                  focused ? styles.tabLabelActive : null,
-                ]}
-              >
-                {route.name}
-              </Text>
-            );
-          },
-          tabBarActiveTintColor: "#7C3AED",
-          tabBarInactiveTintColor: "#B5B5B5",
-          tabBarShowLabel: true,
-          tabBarStyle: styles.tabBar,
-        })}
-      >
-        <Tab.Screen name="Daily" component={DailyTab} />
-        <Tab.Screen name="Timed" component={TimedTab} />
-        <Tab.Screen name="Quizzes" component={QuizzesTab} />
-        <Tab.Screen name="Profile" component={ProfileTab} />
-      </Tab.Navigator>
-    </NavigationContainer>
+          return (
+            <Icon
+              type="ionicon"
+              name={iconName}
+              size={size}
+              color={focused ? theme.colors.secondary : theme.colors.white}
+              containerStyle={styles.tabIcon}
+            />
+          );
+        },
+        tabBarLabel: ({ focused, color }) => {
+          return (
+            <Text
+              style={[styles.tabLabel, focused ? styles.tabLabelActive : null]}
+            >
+              {route.name}
+            </Text>
+          );
+        },
+        tabBarStyle: styles.tabBar,
+      })}
+    >
+      <Tab.Screen name="Daily" component={DailyTab} />
+      <Tab.Screen name="Timed" component={TimedTab} />
+      <Tab.Screen name="Quizzes" component={QuizzesTab} />
+      <Tab.Screen name="Profile" component={ProfileTab} />
+    </Tab.Navigator>
   );
 };
 
 const styles = StyleSheet.create({
+  Container: {
+    backgroundColor: theme.colors.navbarBackground,
+  },
   tabBar: {
-    backgroundColor: theme.colors.headerBackground,
-    borderTopWidth: 2, // Change this to 1 for a border at the top
-    borderTopColor: theme.colors.background, // Add this line to set the border color
+    backgroundColor: theme.colors.navbarBackground,
+    borderTopWidth: 1, // Changed to 1 for a border at the top
+    borderTopColor: theme.colors.background, // Set the border color
     elevation: 0,
     shadowOpacity: 0,
     shadowOffset: {
@@ -84,20 +79,24 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     justifyContent: "center",
+    borderColor: theme.colors.background,
+    borderWidth: 5,
+    borderRadius: 20,
   },
   tabLabel: {
     fontSize: theme.text.buttonText.fontSize,
-    fontWeight: "600",
     textAlign: "center",
-    marginTop: 5,
-    color: theme.colors.buttonText,
+    marginTop: 2,
+    color: theme.colors.tabBarInactiveTintColor,
+    fontFamily: "DEGULAR", // Added font family
   },
   tabLabelActive: {
-    color: theme.colors.tertiaryText,
+    color: theme.colors.accent,
     fontWeight: theme.text.selectedButtonText.fontWeight,
+    fontFamily: "DEGULAR", // Added font family
   },
   tabIcon: {
-    marginBottom: 5,
+    marginBottom: 2,
   },
   tabIconActive: {},
 });

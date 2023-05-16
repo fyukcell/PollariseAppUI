@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,7 @@ import MaterialIcon from "react-native-vector-icons/MaterialIcons"; // Add this 
 import moment from "moment";
 import Share from "react-native-share";
 import { theme } from "../styles/theme";
+import UserContext from "../contexts/UserContext";
 
 interface PollCardProps extends Omit<CardProps, "children"> {
   poll: Poll;
@@ -20,6 +21,8 @@ interface PollCardProps extends Omit<CardProps, "children"> {
 }
 
 const PollCard: React.FC<PollCardProps> = ({ poll, onPress, ...cardProps }) => {
+  const [user, setUser] = useContext(UserContext);
+
   const getTimeRemaining = () => {
     const now = moment();
     const endDate = moment(poll.endDate);
@@ -72,14 +75,7 @@ const PollCard: React.FC<PollCardProps> = ({ poll, onPress, ...cardProps }) => {
           </View>
           <View style={styles.timeRemaining}>
             <Icon name="timer" size={14} color="#AAA" />
-            <Text
-              style={[
-                styles.timeRemainingText,
-                { color: timeRemaining.color }, // Add this line
-              ]}
-            >
-              {timeRemaining.text}
-            </Text>
+            <Text style={[styles.timeRemainingText]}>{timeRemaining.text}</Text>
           </View>
         </View>
         <Card.Title style={styles.title}>{poll.title}</Card.Title>
@@ -87,7 +83,7 @@ const PollCard: React.FC<PollCardProps> = ({ poll, onPress, ...cardProps }) => {
         <Text style={styles.description}>{poll.description}</Text>
         <View style={styles.bottomSection}>
           <View style={styles.participationContainer}>
-            {poll.participated && (
+            {user && !!user.participatedPolls.find((p) => p === poll.id) && (
               <View style={styles.participationCheckmark}>
                 <MaterialIcon name="check-circle" size={20} color="#4CAF50" />
                 <Text style={styles.participationText}>Participated</Text>
@@ -95,6 +91,7 @@ const PollCard: React.FC<PollCardProps> = ({ poll, onPress, ...cardProps }) => {
             )}
           </View>
           <TouchableOpacity style={styles.shareButton} onPress={handleShare}>
+            <Text style={styles.shareText}>Share</Text>
             <Icon name="share" size={24} color="#AAA" />
           </TouchableOpacity>
         </View>
@@ -105,32 +102,38 @@ const PollCard: React.FC<PollCardProps> = ({ poll, onPress, ...cardProps }) => {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    borderRadius: 5,
-    borderColor: theme.colors.border,
+    borderRadius: 10,
+    borderColor: theme.colors.borderColor,
     borderWidth: 1,
     marginHorizontal: 16,
     paddingVertical: 10,
     paddingHorizontal: 16,
-    backgroundColor: theme.colors.cardBackground,
+    backgroundColor: theme.colors.containerBackground,
   },
   participantsText: {
     fontSize: 14,
-    color: theme.colors.secondaryText,
+    color: theme.colors.tertiaryText, // Change color
     marginLeft: 4,
+    fontFamily: "DEGULAR",
   },
   timeRemainingText: {
     fontSize: 14,
     marginLeft: 4,
+    fontFamily: "DEGULAR",
+    color: theme.colors.tertiaryText, // Change color
+  },
+  description: {
+    fontSize: 14,
+    color: theme.colors.tertiaryText, // Change color
+    fontWeight: "bold",
+    fontFamily: "DEGULAR",
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
     color: theme.colors.primaryText,
     marginBottom: 4,
-  },
-  description: {
-    fontSize: 14,
-    color: theme.colors.secondaryText,
+    fontFamily: "BUNGEE",
   },
   topRow: {
     flexDirection: "row",
@@ -156,15 +159,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   shareButton: {
-    marginLeft: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  shareText: {
+    marginRight: 5,
   },
   participationCheckmark: {
     flexDirection: "row",
     alignItems: "center",
   },
   participationText: {
-    color: "#4CAF50",
+    color: theme.colors.accent,
     marginLeft: 4,
+    fontFamily: "DEGULAR",
   },
 });
 

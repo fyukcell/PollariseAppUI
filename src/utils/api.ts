@@ -1,10 +1,11 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Poll, Option } from "./models";
+import { Poll, Option, User } from "./models";
 import { LAST_OTP_REQUEST_TIME } from "./constants";
 import DeviceInfo from "react-native-device-info";
 import { NativeModules } from "react-native";
 import { RSA } from "react-native-rsa-native";
+import { sampleData } from "./sample_data";
 
 async function createApiInstance() {
   const uniqueId = await DeviceInfo.getUniqueId();
@@ -43,17 +44,18 @@ async function getPublicKey(): Promise<string> {
   }
 }
 
-export const getPolls = async (): Promise<Poll[]> => {
+export const getFilteredPolls = async (type: string): Promise<Poll[]> => {
   try {
+    return sampleData.polls;
     const token = await AsyncStorage.getItem("pollarise-jwtToken");
     let api = await createApiInstance();
 
-    const response = await api.get("/polls", {
+    const response = await api.get(`/polls?type=${type}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
   } catch (error) {
-    console.error("Error getting polls:", error);
+    console.error("Error getting filtered polls:", error);
     throw error;
   }
 };
@@ -100,13 +102,14 @@ export const submitPoll = async (
   }
 };
 
-export const validateLogin = async (): Promise<boolean> => {
+export const validateLogin = async (): Promise<User | undefined> => {
   try {
+    return sampleData.user;
     const token = await AsyncStorage.getItem("pollarise-jwtToken");
     let api = await createApiInstance();
 
     if (!token) {
-      return false;
+      return undefined;
     }
 
     const response = await api.post(
@@ -116,7 +119,30 @@ export const validateLogin = async (): Promise<boolean> => {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    return response.data.valid;
+    return response.data;
+  } catch (error) {
+    console.error("Error validating login:", error);
+    throw error;
+  }
+};
+
+export const Logout = async (): Promise<User | undefined> => {
+  try {
+    const token = await AsyncStorage.getItem("pollarise-jwtToken");
+    let api = await createApiInstance();
+
+    if (!token) {
+      return undefined;
+    }
+
+    const response = await api.post(
+      "/logout",
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return response.data;
   } catch (error) {
     console.error("Error validating login:", error);
     throw error;

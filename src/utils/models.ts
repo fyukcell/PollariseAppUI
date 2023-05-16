@@ -7,7 +7,6 @@ export interface User {
   phoneNumber: string;
   selectedCountry: COUNTRY;
   originCountry: COUNTRY;
-  loggedIn: boolean;
   participatedPolls: string[];
   votedOptions: string[];
 }
@@ -22,7 +21,6 @@ export interface Poll {
   participants: number;
   endDate: string;
   displayUntil: string;
-  participated: boolean;
   allowReparticipate: boolean;
   displayedCountries: COUNTRY[];
   allowedCountries: COUNTRY[];

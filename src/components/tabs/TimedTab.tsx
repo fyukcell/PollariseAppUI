@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+// DailyTab.tsx
+import React, { useState, useContext } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 import PollList from "../PollList";
-import Shimmer from "react-native-shimmer";
-import { POLL_SCOPE, POLL_CATEGORY, COUNTRY } from "../../utils/constants";
+import { POLL_SCOPE, POLL_CATEGORY } from "../../utils/constants";
 import { theme } from "../../styles/theme";
 import { PollFilter } from "../../utils/models";
 import { CountryContext } from "../../contexts/CountryContext";
 
 const TimedTab: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { selectedCountry } = useContext(CountryContext); // Use selectedCountry from the context
+  const { selectedCountry } = useContext(CountryContext);
 
   const buttons = ["World", "Region"];
 
@@ -22,11 +22,20 @@ const TimedTab: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Shimmer duration={3000} style={styles.shimmer}>
-          <Text style={styles.title}>Timed Polls</Text>
-        </Shimmer>
-        <View style={styles.separator}></View>
+        <Text style={styles.title}>Timed Polls</Text>
       </View>
+      {selectedIndex === 0 && (
+        <View>
+          <Text style={styles.countryText}>World</Text>
+        </View>
+      )}
+      {selectedIndex === 1 && (
+        <View>
+          <Text style={styles.countryText}>{selectedCountry}</Text>
+        </View>
+      )}
+      <PollList filters={filters} />
+
       <ButtonGroup
         onPress={(index) => setSelectedIndex(index)}
         selectedIndex={selectedIndex}
@@ -37,12 +46,6 @@ const TimedTab: React.FC = () => {
         selectedTextStyle={styles.selectedButtonText}
         innerBorderStyle={{ color: "#2F2F2F" }}
       />
-      {selectedIndex === 1 && (
-        <View>
-          <Text style={styles.countryText}>{selectedCountry}</Text>
-        </View>
-      )}
-      <PollList filters={filters} />
     </View>
   );
 };
@@ -51,53 +54,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
-    padding: 10,
+    padding: 5,
   },
   titleContainer: {
-    alignItems: "center",
-    marginBottom: 15,
-    marginTop: 5,
-    backgroundColor: "#0D0D0D",
-  },
-  shimmer: {
-    width: 200,
-    height: 40,
-    color: "#6A5ACD",
+    marginBottom: 5,
   },
   title: {
-    ...theme.text.title,
-    color: theme.colors.white,
-    textShadowColor: theme.colors.primary,
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
+    ...theme.text.subTitle,
+    fontSize: 25,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: theme.colors.primaryText,
   },
   countryText: {
     ...theme.text.title,
     fontWeight: "normal",
     fontSize: 17,
-    color: theme.colors.white,
-    textShadowColor: theme.colors.primary,
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
-  },
-  separator: {
-    height: 1,
-    width: "100%",
-    backgroundColor: theme.colors.separator,
-    marginTop: 0,
+    color: theme.colors.primaryText,
   },
   buttonGroupContainer: {
-    borderColor: theme.colors.separator,
+    borderColor: theme.colors.borderColor,
     borderWidth: 2,
     borderRadius: 30,
-    backgroundColor: "#222222",
+    backgroundColor: theme.colors.containerBackground,
     marginBottom: 15,
     height: 35,
     width: 200,
     alignSelf: "center",
   },
   selectedButton: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.accent,
     elevation: 4,
   },
   buttonText: {
@@ -107,32 +93,6 @@ const styles = StyleSheet.create({
   selectedButtonText: {
     color: theme.colors.white,
     ...theme.text.selectedButtonText,
-  },
-  innerBorder: {
-    color: theme.colors.innerBorder,
-  },
-  countryPicker: {
-    width: 200,
-    alignSelf: "center",
-    marginBottom: 15,
-    color: theme.colors.white,
-  },
-  dropDownContainer: {
-    marginBottom: 15,
-  },
-  dropDown: {
-    backgroundColor: "#222222",
-  },
-  dropDownItem: {
-    justifyContent: "flex-start",
-  },
-  dropDownBox: {
-    backgroundColor: "#222222",
-    borderColor: theme.colors.separator,
-  },
-  countryPickerContainer: {
-    alignSelf: "center",
-    marginBottom: 15,
   },
 });
 

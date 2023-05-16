@@ -1,16 +1,19 @@
-import React from "react";
+// components/ProfileTab.tsx
+import React, { useContext } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-elements";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { COUNTRY } from "../../utils/constants";
 import CountryPicker from "../CountryPicker";
 import { theme } from "../../styles/theme";
-import Shimmer from "react-native-shimmer";
+import UserContext from "../../contexts/UserContext";
+import { Logout } from "../../utils/api";
 
 const ProfileTab: React.FC = () => {
+  const [user, setUser] = useContext(UserContext);
+
   const handleLogout = async () => {
     try {
-      // Implement your logout functionality here
+      await Logout();
+      setUser(undefined);
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -19,23 +22,22 @@ const ProfileTab: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Shimmer duration={3000} style={styles.shimmer}>
-          <Text style={styles.title}>Profile</Text>
-        </Shimmer>
-        <View style={styles.separator}></View>
+        <Text style={styles.title}>Profile</Text>
       </View>
       <View style={styles.content}>
-        <Text style={styles.selectCountryText}>Select your country</Text>
+        <Text style={styles.selectCountryText}>Select your region</Text>
         <CountryPicker containerStyle={styles.countryPickerContainer} />
       </View>
-      <View style={styles.logoutContainer}>
-        <Button
-          title="Logout"
-          onPress={handleLogout}
-          buttonStyle={styles.logoutButton}
-          titleStyle={styles.buttonText}
-        />
-      </View>
+      {user && (
+        <View style={styles.logoutContainer}>
+          <Button
+            title="Logout"
+            onPress={handleLogout}
+            buttonStyle={styles.logoutButton}
+            titleStyle={styles.buttonText}
+          />
+        </View>
+      )}
     </View>
   );
 };
@@ -44,63 +46,47 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background,
-    padding: 10,
+    padding: 5,
   },
   titleContainer: {
-    alignItems: "center",
-    marginBottom: 15,
-    marginTop: 5,
-    backgroundColor: "#0D0D0D",
-  },
-  shimmer: {
-    width: 200,
-    height: 40,
-    color: "#6A5ACD",
+    marginBottom: 5,
   },
   title: {
-    ...theme.text.title,
-    color: theme.colors.white,
-    textShadowColor: theme.colors.primary,
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
-  },
-  separator: {
-    height: 1,
-    width: "100%",
-    backgroundColor: theme.colors.separator,
-    marginTop: 0,
+    ...theme.text.subTitle,
+    fontSize: 25,
+    textAlign: "center",
+    fontWeight: "bold",
+    color: theme.colors.primaryText,
   },
   content: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center",
   },
   selectCountryText: {
     ...theme.text.title,
     fontWeight: "normal",
     fontSize: 17,
-    color: theme.colors.white,
-    textShadowColor: theme.colors.primary,
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 5,
-    alignSelf: "center",
+    color: theme.colors.primaryText,
     marginBottom: 5,
   },
   countryPickerContainer: {
     marginBottom: 20,
-    alignSelf: "center",
   },
   logoutContainer: {
     marginBottom: 10,
   },
   logoutButton: {
-    backgroundColor: theme.colors.primary,
-    elevation: 4,
-    width: 150,
+    backgroundColor: theme.colors.accent,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 5,
     alignSelf: "center",
   },
   buttonText: {
-    color: theme.colors.white,
     ...theme.text.buttonText,
+    fontWeight: "bold",
+    color: theme.colors.white,
   },
 });
 

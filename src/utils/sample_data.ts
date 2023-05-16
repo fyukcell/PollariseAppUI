@@ -10,8 +10,7 @@ export const sampleData: {
     phoneNumber: "+1234567890",
     selectedCountry: COUNTRY.UNITED_STATES,
     originCountry: COUNTRY.UNITED_STATES,
-    loggedIn: true,
-    participatedPolls: ["p1", "p2"],
+    participatedPolls: ["p1"],
     votedOptions: ["o1", "o4"],
   },
   polls: [
@@ -44,7 +43,6 @@ export const sampleData: {
       participants: 500,
       endDate: "2023-05-01",
       displayUntil: "2023-05-02",
-      participated: true,
       allowReparticipate: false,
       displayedCountries: [COUNTRY.UNITED_STATES],
       allowedCountries: [COUNTRY.UNITED_STATES],
@@ -53,7 +51,7 @@ export const sampleData: {
       id: "p2",
       title: "Poll 2",
       description: "This is the second sample poll.",
-      category: POLL_CATEGORY.TRENDING,
+      category: POLL_CATEGORY.TIMED,
       scope: POLL_SCOPE.COUNTRY,
       questions: [
         {
@@ -78,7 +76,6 @@ export const sampleData: {
       participants: 600,
       endDate: "2023-05-01",
       displayUntil: "2023-05-02",
-      participated: false,
       allowReparticipate: true,
       displayedCountries: [COUNTRY.UNITED_STATES],
       allowedCountries: [COUNTRY.UNITED_STATES],
