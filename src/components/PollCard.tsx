@@ -47,7 +47,7 @@ const PollCard: React.FC<PollCardProps> = ({ poll, onPress, ...cardProps }) => {
       color: "#AAA",
     };
   };
-  const timeRemaining = getTimeRemaining(); // Add this line
+  const timeRemaining = getTimeRemaining();
 
   const handleShare = async () => {
     try {

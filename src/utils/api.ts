@@ -48,7 +48,7 @@ async function getPublicKey(): Promise<string> {
 export const getFilteredPolls = async (type: string): Promise<Poll[]> => {
   try {
     return sampleData.polls;
-    const token = await AsyncStorage.getItem("pollarise-jwtToken");
+    const token = await getAuthToken();
     let api = await createApiInstance();
 
     const response = await api.get(`/polls?type=${type}`, {
@@ -63,7 +63,8 @@ export const getFilteredPolls = async (type: string): Promise<Poll[]> => {
 
 export const getPoll = async (pollId: string): Promise<Poll> => {
   try {
-    const token = await AsyncStorage.getItem("pollarise-jwtToken");
+    const token = await getAuthToken();
+
     let api = await createApiInstance();
 
     const response = await api.get(`/polls/${pollId}`, {
@@ -76,12 +77,20 @@ export const getPoll = async (pollId: string): Promise<Poll> => {
   }
 };
 
+export const getAuthToken = async (): Promise<String> => {
+  const token = await AsyncStorage.getItem("pollarise-jwtToken");
+  if (token === null) {
+    throw new Error("JWT doesnt exist.");
+  }
+  return token;
+};
+
 export const submitPoll = async (
   poll: Poll,
   selectedOptions: Option[]
 ): Promise<boolean> => {
   try {
-    const token = await AsyncStorage.getItem("pollarise-jwtToken");
+    const token = await getAuthToken();
     let api = await createApiInstance();
 
     const response = await api.post(
@@ -106,7 +115,7 @@ export const submitPoll = async (
 export const validateLogin = async (): Promise<User | undefined> => {
   try {
     return sampleData.user;
-    const token = await AsyncStorage.getItem("pollarise-jwtToken");
+    const token = await getAuthToken();
     let api = await createApiInstance();
 
     if (!token) {
@@ -129,7 +138,7 @@ export const validateLogin = async (): Promise<User | undefined> => {
 
 export const Logout = async (): Promise<User | undefined> => {
   try {
-    const token = await AsyncStorage.getItem("pollarise-jwtToken");
+    const token = await getAuthToken();
     let api = await createApiInstance();
 
     if (!token) {
@@ -150,82 +159,82 @@ export const Logout = async (): Promise<User | undefined> => {
   }
 };
 
-export const requestOtp = async (phoneNumber: string): Promise<boolean> => {
-  try {
-    const currentTime = Date.now();
-    const lastOtpRequestTime = await getLastOtpRequestTime();
-    let api = await createApiInstance();
+// export const requestOtp = async (phoneNumber: string): Promise<boolean> => {
+//   try {
+//     const currentTime = Date.now();
+//     const lastOtpRequestTime = await getLastOtpRequestTime();
+//     let api = await createApiInstance();
 
-    const otpRequestInterval = Math.max(
-      Math.min(60000, 2 * (currentTime - lastOtpRequestTime)),
-      30000
-    );
+//     const otpRequestInterval = Math.max(
+//       Math.min(60000, 2 * (currentTime - lastOtpRequestTime)),
+//       30000
+//     );
 
-    if (currentTime - lastOtpRequestTime < otpRequestInterval) {
-      return false;
-    }
+//     if (currentTime - lastOtpRequestTime < otpRequestInterval) {
+//       return false;
+//     }
 
-    const publicKey = await getPublicKey();
-    const encryptedPhoneNumber = await RSA.encrypt(phoneNumber, publicKey);
+//     const publicKey = await getPublicKey();
+//     const encryptedPhoneNumber = await RSA.encrypt(phoneNumber, publicKey);
 
-    const response = await api.post("/request-otp", { encryptedPhoneNumber });
-    await setLastOtpRequestTime(currentTime);
-    return response.data.success;
-  } catch (error) {
-    console.error("Error requesting OTP:", error);
-    throw error;
-  }
-};
+//     const response = await api.post("/request-otp", { encryptedPhoneNumber });
+//     await setLastOtpRequestTime(currentTime);
+//     return response.data.success;
+//   } catch (error) {
+//     console.error("Error requesting OTP:", error);
+//     throw error;
+//   }
+// };
 
-export const validateOtp = async (
-  phoneNumber: string,
-  otp: string
-): Promise<boolean> => {
-  try {
-    const currentTime = Date.now();
-    const lastOtpRequestTime = await getLastOtpRequestTime();
-    let api = await createApiInstance();
+// export const validateOtp = async (
+//   phoneNumber: string,
+//   otp: string
+// ): Promise<boolean> => {
+//   try {
+//     const currentTime = Date.now();
+//     const lastOtpRequestTime = await getLastOtpRequestTime();
+//     let api = await createApiInstance();
 
-    const otpValidationInterval = Math.max(
-      Math.min(60000, 2 * (currentTime - lastOtpRequestTime)),
-      30000
-    );
+//     const otpValidationInterval = Math.max(
+//       Math.min(60000, 2 * (currentTime - lastOtpRequestTime)),
+//       30000
+//     );
 
-    if (currentTime - lastOtpRequestTime < otpValidationInterval) {
-      return false;
-    }
+//     if (currentTime - lastOtpRequestTime < otpValidationInterval) {
+//       return false;
+//     }
 
-    const publicKey = await getPublicKey();
-    const encryptedPhoneNumber = await RSA.encrypt(phoneNumber, publicKey);
+//     const publicKey = await getPublicKey();
+//     const encryptedPhoneNumber = await RSA.encrypt(phoneNumber, publicKey);
 
-    const response = await api.post("/validate-otp", {
-      encryptedPhoneNumber,
-      otp,
-    });
-    const token = response.data.token;
-    if (token) {
-      await AsyncStorage.setItem("pollarise-jwtToken", token);
-      await setLastOtpRequestTime(currentTime);
-      return true;
-    }
-  } catch (error) {
-    console.error("Error validating OTP:", error);
-    throw error;
-  }
+//     const response = await api.post("/validate-otp", {
+//       encryptedPhoneNumber,
+//       otp,
+//     });
+//     const token = response.data.token;
+//     if (token) {
+//       await AsyncStorage.setItem("pollarise-jwtToken", token);
+//       await setLastOtpRequestTime(currentTime);
+//       return true;
+//     }
+//   } catch (error) {
+//     console.error("Error validating OTP:", error);
+//     throw error;
+//   }
 
-  return false;
-};
+//   return false;
+// };
 
-export const getLastOtpRequestTime = async (): Promise<number> => {
-  const lastOtpRequestTimeStr = await AsyncStorage.getItem(
-    LAST_OTP_REQUEST_TIME
-  );
-  return lastOtpRequestTimeStr ? parseInt(lastOtpRequestTimeStr) : 0;
-};
+// export const getLastOtpRequestTime = async (): Promise<number> => {
+//   const lastOtpRequestTimeStr = await AsyncStorage.getItem(
+//     LAST_OTP_REQUEST_TIME
+//   );
+//   return lastOtpRequestTimeStr ? parseInt(lastOtpRequestTimeStr) : 0;
+// };
 
-const setLastOtpRequestTime = async (time: number): Promise<void> => {
-  await AsyncStorage.setItem(LAST_OTP_REQUEST_TIME, time.toString());
-};
+// const setLastOtpRequestTime = async (time: number): Promise<void> => {
+//   await AsyncStorage.setItem(LAST_OTP_REQUEST_TIME, time.toString());
+// };
 
 async function isRealDevice(): Promise<boolean> {
   if (__DEV__) {
